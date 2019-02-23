@@ -26,7 +26,7 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 		Beta:  0.5,
 	}
 
-	sec := p.Rand()
+	sec := p.Rand() / 2.0
 	dur := time.Duration(float64(time.Second) * sec)
 
 	log.Printf("waiting %v seconds", dur.Seconds())
