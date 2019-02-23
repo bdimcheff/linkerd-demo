@@ -33,5 +33,5 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 
 	time.Sleep(time.Duration(dur))
 
-	fmt.Fprint(w, html.EscapeString("i am slow"))
+	fmt.Fprint(w, html.EscapeString(fmt.Sprintf("i am slow, it took me %v seconds", dur)))
 }
