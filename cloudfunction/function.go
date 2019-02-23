@@ -3,20 +3,35 @@ package cloudfunction
 import (
 	"fmt"
 	"html"
+	"log"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"gonum.org/v1/gonum/stat/distuv"
 )
 
-// HelloWorld prints the JSON encoded "message" field in the body
-// of the request or "Hello, World!" if there isn't one.
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	if rand.Float64() < 0.1 {
 		w.WriteHeader(500)
 		return
 	}
 
-	time.Sleep(time.Duration(rand.Int31n(10)) * time.Second)
+	p := distuv.Gamma{
+		Alpha: 2.0,
+		Beta:  0.5,
+	}
 
-	fmt.Fprint(w, html.EscapeString("i'm slow"))
+	sec := p.Rand()
+	dur := float64(time.Second) * sec
+
+	log.Printf("waiting %v seconds", dur)
+
+	time.Sleep(time.Duration(dur))
+
+	fmt.Fprint(w, html.EscapeString("i am slow"))
 }
