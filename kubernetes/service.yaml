@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: linkerd-demo
+spec:
+  type: LoadBalancer
+  selector:
+    app: linkerd-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

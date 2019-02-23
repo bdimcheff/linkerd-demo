@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkerd-demo
+  labels:
+    app: linkerd-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: linkerd-demo
+  template:
+    metadata:
+      labels:
+        app: linkerd-demo
+    spec:
+      containers:
+      - name: linkerd-demo
+        image: gcr.io/linkerd-external-demo/linkerd-external-demo:latest
+        ports:
+        - containerPort: 8080
