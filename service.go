@@ -25,12 +25,17 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 func ThirdPartyHandler(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
-	http.Get("http://us-central1-linkerd-external-demo.cloudfunctions.net/slow")
+	res, err := http.Get("http://us-central1-linkerd-external-demo.cloudfunctions.net/slow")
 	end := time.Now()
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	dur := end.Sub(start)
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(res.StatusCode)
 	w.Header().Set("Content-Type", "application/json")
 	io.WriteString(w, fmt.Sprintf(`{"duration": %d}`, dur))
 }
