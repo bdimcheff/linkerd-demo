@@ -27,11 +27,11 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sec := p.Rand()
-	dur := float64(time.Second) * sec
+	dur := time.Duration(float64(time.Second) * sec)
 
-	log.Printf("waiting %v seconds", dur)
+	log.Printf("waiting %v seconds", dur.Seconds())
 
-	time.Sleep(time.Duration(dur))
+	time.Sleep(dur)
 
-	fmt.Fprint(w, html.EscapeString(fmt.Sprintf("i am slow, it took me %v seconds", dur)))
+	fmt.Fprint(w, html.EscapeString(fmt.Sprintf("i am slow, it took me %v seconds", dur.Seconds())))
 }
